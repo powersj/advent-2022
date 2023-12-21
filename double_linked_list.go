@@ -2,22 +2,23 @@ package main
 
 import "fmt"
 
-// This linked list, often refeared to as a singly linked list, contains a
+// This doubly linked list, often refeared to as a singly linked list, contains a
 // head, which then points to the next node. This continues for the full list
 // untill the tail, which has no next. e.g. a train with locomotive (i.e. the
 // head) + box cars + caboose (i.e. tail)
-type LinkedList struct {
-	head *listNode
+type DoubleLinkedList struct {
+	head *doubleListNode
 }
 
-type listNode struct {
+type doubleListNode struct {
 	Value any
-	Next  *listNode
+	Prev  *doubleListNode
+	Next  *doubleListNode
 }
 
 // Adds an element to the end of the list.
-func (l *LinkedList) Add(value any) error {
-	node := listNode{Value: value}
+func (l *DoubleLinkedList) Add(value any) error {
+	node := doubleListNode{Value: value}
 
 	if l.head == nil {
 		l.head = &node
@@ -29,12 +30,13 @@ func (l *LinkedList) Add(value any) error {
 		current = current.Next
 	}
 
+	node.Prev = current.Next
 	current.Next = &node
 	return nil
 }
 
 // Returns bool if list contains a specific value
-func (l *LinkedList) Contains(value any) bool {
+func (l *DoubleLinkedList) Contains(value any) bool {
 	current := l.head
 	for {
 		if current == nil {
@@ -48,15 +50,16 @@ func (l *LinkedList) Contains(value any) bool {
 }
 
 // Returns value of head node.
-func (l *LinkedList) Head() (any, error) {
+func (l *DoubleLinkedList) Head() (any, error) {
 	if l.head == nil {
 		return nil, fmt.Errorf("list is empty")
 	}
+
 	return l.head.Value, nil
 }
 
 // Returns length of the list.
-func (l *LinkedList) Length() int {
+func (l *DoubleLinkedList) Length() int {
 	length := 0
 
 	current := l.head
@@ -72,14 +75,21 @@ func (l *LinkedList) Length() int {
 }
 
 // Removes the element with specifc value.
-func (l *LinkedList) Remove(value any) error {
+func (l *DoubleLinkedList) Remove(value any) error {
 	if l.head == nil {
 		return fmt.Errorf("list is empty")
 	}
 
 	// deal with head first, since no previous element to worry about
 	if l.head.Value == value {
+		// single element list
+		if l.head.Next == nil {
+			l.head = nil
+			return nil
+		}
+
 		l.head = l.head.Next
+		l.head.Prev = nil
 		return nil
 	}
 
@@ -99,7 +109,7 @@ func (l *LinkedList) Remove(value any) error {
 }
 
 // Create string of the list structure.
-func (l *LinkedList) String() string {
+func (l *DoubleLinkedList) String() string {
 	if l.head == nil {
 		return ""
 	}
@@ -114,7 +124,7 @@ func (l *LinkedList) String() string {
 }
 
 // Returns value of tail element.
-func (l *LinkedList) Tail() (any, error) {
+func (l *DoubleLinkedList) Tail() (any, error) {
 	if l.head == nil {
 		return nil, fmt.Errorf("list is empty")
 	}

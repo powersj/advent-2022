@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestEmptyList(t *testing.T) {
-	list := LinkedList{}
+func TestEmptyDoubleList(t *testing.T) {
+	list := DoubleLinkedList{}
 
 	require.Equal(t, list.Length(), 0)
 	require.Equal(t, "", list.String())
@@ -21,10 +21,10 @@ func TestEmptyList(t *testing.T) {
 	require.Error(t, err)
 }
 
-func TestOneNodeList(t *testing.T) {
+func TestOneNodeDoubleList(t *testing.T) {
 	expected := 42
 
-	list := LinkedList{}
+	list := DoubleLinkedList{}
 	require.NoError(t, list.Add(expected))
 	require.Equal(t, list.Length(), 1)
 	require.Equal(t, "42", list.String())
@@ -42,11 +42,10 @@ func TestOneNodeList(t *testing.T) {
 
 	require.True(t, list.Contains(expected))
 	require.NoError(t, list.Remove(expected))
-
 }
 
-func TestRemoveHeadList(t *testing.T) {
-	list := LinkedList{}
+func TestRemoveHeadDoubleList(t *testing.T) {
+	list := DoubleLinkedList{}
 	require.NoError(t, list.Add(1))
 	require.NoError(t, list.Add(2))
 
@@ -59,8 +58,8 @@ func TestRemoveHeadList(t *testing.T) {
 	require.Equal(t, "", list.String())
 }
 
-func TestMultiNodeList(t *testing.T) {
-	list := LinkedList{}
+func TestMultiNodeDoubleList(t *testing.T) {
+	list := DoubleLinkedList{}
 	require.NoError(t, list.Add(1))
 	require.NoError(t, list.Add(2))
 	require.NoError(t, list.Add(3))
@@ -86,8 +85,8 @@ func TestMultiNodeList(t *testing.T) {
 	require.Equal(t, 2, val)
 }
 
-func TestPrintList(t *testing.T) {
-	list := LinkedList{}
+func TestPrintDoubleList(t *testing.T) {
+	list := DoubleLinkedList{}
 	require.NoError(t, list.Add("a"))
 	require.NoError(t, list.Add("b"))
 	require.NoError(t, list.Add("c"))
